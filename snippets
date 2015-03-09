@@ -1,0 +1,109 @@
+package snippets;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Scanner;
+/**
+ * @author Farah Saney-
+ * Student at Hogeschool inholland.
+ *
+ */
+public  class SnippetSearch {
+
+	private static Scanner scan;
+	private static Scanner sc;
+
+	public static void main(String[] args) throws IOException{
+		System.out.println("Enter the searchWord: ");
+		scan = new Scanner(System.in);
+		String t=scan.nextLine();
+		System.out.println("Enter the snippet length: ");
+		int a=scan.nextInt();
+		
+        File f= new File("src/10000_words.txt");
+        System.out.println("//OUTPUT OF snippetSearchVersion_1//");
+        System.out.println(" ");
+		snippetSearchVersion1(f,t,a);
+		System.out.println(" ");
+		System.out.println("//OUTPUT OF snippetSearchVersion_2//");
+		System.out.println(" ");
+		snippetSearchVersion2(new FileReader(f), t,a);
+		
+	}
+		
+	public static  void snippetSearchVersion1(File x,String W,int d) throws FileNotFoundException{
+		long startTime=System.currentTimeMillis();
+	    	int count =0;
+	    	int occurence=0;
+		sc = new Scanner(x);
+		ArrayList<String> words = new ArrayList<String>();
+		String line;
+		while(sc.hasNext()){
+	    		line=sc.next();
+	    		  words.add(line);
+	    		  count++;
+		
+		}
+	    		for(int i=0; i<words.size(); i++){
+	    			   if(words.get(i).equalsIgnoreCase(W)){
+	    				   occurence++;
+	    				   for(int j=d;j>0;j--){
+	    				   System.out.print(words.get(i-j)+" ");}
+	    			   System.out.print(words.get(i)+" ");
+	    			   for(int k=1;k<=d;k++){
+	    			   System.out.print(words.get(i+k)+" ");}
+	    			   System.out.println();
+	    			   
+	    			   }
+	    			         }
+	    	System.out.println("[The document has a total of "+count+" words]");
+	    System.out.println("[the occurence of the word "+W+" is "+occurence+" times]");
+	    long endTime=System.currentTimeMillis();
+	    System.out.println("[That took " + (endTime - startTime) + " milliseconds]");
+	    	}
+
+public static void snippetSearchVersion2(Reader inReader, String searchFor,int d) throws IOException {
+	long startTime=System.currentTimeMillis();
+	int occurence=0;
+    BufferedReader reader = null;
+    try {
+        reader = new BufferedReader(inReader);
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.contains(searchFor)) {
+            	String [] words=line.split(" ");
+        		for(int i=0; i<words.length; i++){
+        			   if(words[i].equalsIgnoreCase(searchFor)){
+        				   occurence++;
+        				   for(int j=d;j>0;j--){
+        				   System.out.print(words[i-j]+" ");}
+        			   System.out.print(words[i]+" ");
+        			   for(int k=1;k<=d;k++){
+        			   System.out.print(words[i+k]+" ");}
+        			   System.out.println();
+        			   
+            }
+        }}}}
+     finally {
+        if (reader != null) {
+            reader.close();
+        }
+    }long endTime=System.currentTimeMillis();
+    System.out.println("[the occurence of the word "+searchFor+" is "+occurence+" times]");
+    System.out.println("[That took " + (endTime - startTime) + " milliseconds]");
+    
+}
+    	
+}    	
+    	
+    
+
+
+
+
+
